@@ -10,6 +10,8 @@ import java.util.Objects;
 @Controller
 public class SampleController {
 	@GetMapping("/") public String index(Model model, Principal principal) {
+
+		System.out.println("principal = " + principal);
 		if(Objects.isNull(principal))
 			model.addAttribute("message", "Hello Spring Security");
 		else
