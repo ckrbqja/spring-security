@@ -1,23 +1,18 @@
 package com.example.demospringsecuritydemo.config;
 
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-@Order(Ordered.LOWEST_PRECEDENCE - 10)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Order(Ordered.LOWEST_PRECEDENCE - 15)
+public class AnotherSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override protected void configure(final HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.mvcMatchers("/", "/info", "/account/**").permitAll()
-				.mvcMatchers("/admin").hasRole("ADMIN")
-				.anyRequest().authenticated();
+				.anyRequest().permitAll();
 //				.and()
 //				.formLogin()
 //				.and()
