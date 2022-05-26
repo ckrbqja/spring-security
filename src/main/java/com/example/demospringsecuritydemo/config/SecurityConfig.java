@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new AffirmativeBased(voters);
 	}
 
-	//asd
+	//a
 	public SecurityExpressionHandler securityExpressionHandler() {
 
 		final RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
