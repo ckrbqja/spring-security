@@ -1,9 +1,11 @@
 package com.example.demospringsecuritydemo.config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.expression.SecurityExpressionHandler;
@@ -11,9 +13,11 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 
@@ -25,21 +29,21 @@ import java.util.List;
 @Order(Ordered.LOWEST_PRECEDENCE - 10)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	public AccessDecisionManager accessDecisionManager() {
-
-		final RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-		roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
-
-		final DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
-		handler.setRoleHierarchy(roleHierarchy);
-
-		final WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
-		webExpressionVoter.setExpressionHandler(handler);
-
-		List<AccessDecisionVoter<?>> voters = List.of(webExpressionVoter);
-		return new AffirmativeBased(voters);
-	}
-
+//	public AccessDecisionManager accessDecisionManager() {
+//
+//		final RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+//		roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
+//
+//		final DefaultWebSecurityExpressionHandler handler = new DefaultWebSecurityExpressionHandler();
+//		handler.setRoleHierarchy(roleHierarchy);
+//
+//		final WebExpressionVoter webExpressionVoter = new WebExpressionVoter();
+//		webExpressionVoter.setExpressionHandler(handler);
+//
+//		List<AccessDecisionVoter<?>> voters = List.of(webExpressionVoter);
+//		return new AffirmativeBased(voters);
+//	}
+//
 	//a
 	public SecurityExpressionHandler securityExpressionHandler() {
 
@@ -51,6 +55,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		return handler;
 	}
+
+//	@Override public void configure(final WebSecurity web) throws Exception {
+//		web.ignoring().mvcMatchers("/favicon.ico");
+//		web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+//	}
 
 	@Override protected void configure(final HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -65,8 +74,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //				.and()
 //				.httpBasic();
 
-		http.formLogin();
+				http.formLogin();
 		http.httpBasic();
+
+		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
 	}
 
 //	@Override protected void configure(final AuthenticationManagerBuilder auth) throws Exception {

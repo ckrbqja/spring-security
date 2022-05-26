@@ -2,6 +2,8 @@ package com.example.demospringsecuritydemo.form;
 
 import com.example.demospringsecuritydemo.acccount.Account;
 import com.example.demospringsecuritydemo.acccount.AccountContext;
+import com.example.demospringsecuritydemo.common.SecurityLogger;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,5 +25,11 @@ public class SampleService {
 		Object credentials = authentication.getCredentials();
 		boolean authenticated = authentication.isAuthenticated();
 
+	}
+
+	@Async
+	public void asyncService() {
+		SecurityLogger.log("asyncService");
+		System.out.println("async Service");
 	}
 }
